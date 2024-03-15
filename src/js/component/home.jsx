@@ -12,8 +12,9 @@ const Home = () => {
 		// console.log(event);
 		if (event.key === "Enter") {
 			// console.log("Agregar task");
-			setTasks(tasks.concat(newTask))
+			setTasks(tasks.concat( { label: newTask, done: false }))
 			setNewTask("");
+			putTask(tasks.concat( { label: newTask, done: false }));
 		}
 	}
 
@@ -21,9 +22,10 @@ const Home = () => {
 	function deletetask(position) {
 		const arrayfiltered = tasks.filter((item, index) => index !== position)
 		setTasks(arrayfiltered)
+		putTask(arrayfiltered);
 		}
 
-
+		
 	function createUser() {
 		fetch('https://playground.4geeks.com/apis/fake/todos/user/JonayJ0', {
 			method:'POST',
@@ -37,37 +39,46 @@ const Home = () => {
 		.catch((error)=>console.log(error))
 	 }
 
+	 // esta funcion trae la lista de tareas de la Api 
 	 function getInfo() {
 		fetch('https://playground.4geeks.com/apis/fake/todos/user/JonayJ0', {
 			method:'GET'
-			// "Content-Type": "application/json"
-      		// PARAMS: None,
 		})
-		.then((response)=>response.json())
-		.then((data)=>setTasks(data))
+		.then((response)=>{
+			console.log(response);
+			if (response.status === 404) {
+				createUser()
+			}
+			return response.json()
+		})
+		.then((data)=>
+			// console.log(data)
+			setTasks(data))
 		.catch((error)=>console.log(error))
 	 }
 
-// function putTask() {
-// 	 fetch('https://playground.4geeks.com/apis/fake/todos/user/JonayJ0', {
-//       method: "PUT",
-//       body: JSON.stringify(data),
-//       headers: {
-//         "Content-Type": "application/json"
-//       }
-//     })
-//     .then(resp => {
-//         console.log(resp.ok); // Será true si la respuesta es exitosa
-//         console.log(resp.status); // El código de estado 200, 300, 400, etc.
-//         console.log(resp.text()); // Intentará devolver el resultado exacto como string
-//         return resp.json(); // Intentará parsear el resultado a JSON y retornará una promesa donde puedes usar .then para seguir con la lógica
-//     })
-//     .then(data => {
-//         // Aquí es donde debe comenzar tu código después de que finalice la búsqueda
-//         console.log(data); // Esto imprimirá en la consola el objeto exacto recibido del servidor
-//     })
-//     .catch(error => {console.log(error);});
-// }
+
+	 //Actualiza las tareas
+	function putTask(tasks) {
+		fetch('https://playground.4geeks.com/apis/fake/todos/user/JonayJ0', {
+		method: "PUT",
+		body: JSON.stringify(tasks),
+		headers: {
+			"Content-Type": "application/json"
+		}
+		})
+		.then(resp => {
+			console.log(resp.ok); // Será true si la respuesta es exitosa
+			console.log(resp.status); // El código de estado 200, 300, 400, etc.
+			console.log(resp.text()); // Intentará devolver el resultado exacto como string
+			return resp.json(); // Intentará parsar el resultado a JSON y retornará una promesa donde puedes usar .then para seguir con la lógica
+		})
+		.then(data => {
+			// Aquí es donde debe comenzar tu código después de que finalice la búsqueda
+			console.log(data); // Esto imprimirá en la consola el objeto exacto recibido del servidor
+		})
+		.catch(error => {console.log(error);});
+	}
 
 	//  function putTask() {
 	// 	fetch('https://playground.4geeks.com/apis/fake/todos/user/JonayJ0', {
@@ -83,10 +94,21 @@ const Home = () => {
 	//  }
 // console.log(data);
 
+//  function deleteList() {
+// 	fetch('https://playground.4geeks.com/apis/fake/todos/user/JonayJ0', {
+// 			method:'DELETE'
+// 		})
+// 		.then((response)=>
+// 			console.log(response))
+// 		.then((data)=>
+// 			console.log(data))
+		
+// 		.catch((error)=>console.log(error))
+//  }
+
 		useEffect(()=>{
-			// createUser()
 			getInfo()
-			// putTask()
+			
 		},[])
 
 	return (
@@ -105,6 +127,7 @@ const Home = () => {
 			</ul>
 				<div className="contador border-top p-3"><span>{tasks.length} tasks</span></div>	
 		</div>
+		{/* <div className="Delete" onClick={deleteList}>BORRAR TODO</div> */}
 		</>
 	);
 };
