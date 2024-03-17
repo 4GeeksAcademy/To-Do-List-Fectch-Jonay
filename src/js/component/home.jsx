@@ -94,17 +94,23 @@ const Home = () => {
 	//  }
 // console.log(data);
 
-//  function deleteList() {
-// 	fetch('https://playground.4geeks.com/apis/fake/todos/user/JonayJ0', {
-// 			method:'DELETE'
-// 		})
-// 		.then((response)=>
-// 			console.log(response))
-// 		.then((data)=>
-// 			console.log(data))
+ function deleteList() {
+	fetch('https://playground.4geeks.com/apis/fake/todos/user/JonayJ0', {
+			method:'DELETE'
+		})
+		.then((response)=>
+			console.log(response))
+		.then((data)=>
+			console.log(data))
 		
-// 		.catch((error)=>console.log(error))
-//  }
+		.catch((error)=>console.log(error))
+ }
+
+// function deleteAll() {
+// 	const arrayFiltered = [{"done": false, "label": "GET/POST/PUT/DELETE"}];
+// 	setTasks(arrayFiltered);
+// 	putLista(arrayFiltered);
+// }
 
 		useEffect(()=>{
 			getInfo()
@@ -127,7 +133,9 @@ const Home = () => {
 			</ul>
 				<div className="contador border-top p-3"><span>{tasks.length} tasks</span></div>	
 		</div>
-		{/* <div className="Delete" onClick={deleteList}>BORRAR TODO</div> */}
+		<div>
+			<span className="buttonDelete" onClick={() => deleteList()}><button className="btn btn-danger mt-4" type="button">DELETE</button></span>
+			</div>
 		</>
 	);
 };

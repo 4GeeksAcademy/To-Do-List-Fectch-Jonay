@@ -78,6 +78,10 @@ h1 {
     color: rgb(245, 173, 173);
   } 
 
+  .buttonDelete {
+   display: flex;
+   justify-content: center;
+  }
 
  /* Poniendo estas clases .delete no me funciona el hover por eso tuve que citar al icono directa,ente arriba///
   /* .delete:hover {
