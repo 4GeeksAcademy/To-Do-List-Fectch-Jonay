@@ -80,9 +80,10 @@ const Home = () => {
 		.catch(error => {console.log(error);});
 	}
 
-	//  function putTask() {
+	//  function putTask(tasks) {
 	// 	fetch('https://playground.4geeks.com/apis/fake/todos/user/JonayJ0', {
 	// 		method:'PUT'
+	//      body: JSON.stringify(tasks),
 	// 		headers {
 	// 		"Content-Type": "application/json"
 	// 	}
